@@ -11,13 +11,19 @@ import javax.swing.JFrame;
 
 public class Window extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
+	
 	private static final Color onColor = Color.yellow;
 	private static final Color offColor = Color.gray;
 
 	private JButton button = new JButton("Turn off");
 	
-	private static final long serialVersionUID = 1L;
-
+	private ServiceOperator operator = null;
+	
+	public void setOperator(ServiceOperator operator) {
+		this.operator = operator;
+	}
+	
 	public Window() {
 		super("Engineer's clipboard");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -39,12 +45,14 @@ public class Window extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (Main.timer.isWorking()) {
-			Main.timer.turnOff();
+		if (operator == null) return;
+		
+		if (operator.isWorking()) {
+			operator.turnOff();
 			button.setText("Turn on");
 			button.setBackground(offColor);
 		} else {
-			Main.timer.turnOn();
+			operator.turnOn();
 			button.setText("Turn off");
 			button.setBackground(onColor);
 		}

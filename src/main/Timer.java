@@ -7,7 +7,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
-public class Timer extends Thread {
+public class Timer extends Thread implements ServiceOperator{
 	
 	private static final int INTERVAL = 1000;
 	
@@ -64,15 +64,18 @@ public class Timer extends Thread {
 		end = true;
 	}
 	
+	@Override
 	public synchronized void turnOff() {
 		pause = true;
 	}
 	
+	@Override
 	public synchronized void turnOn() {
 		pause = false;
 		this.notify();
 	}
 
+	@Override
 	public synchronized boolean isWorking() {
 		return !pause;
 	}

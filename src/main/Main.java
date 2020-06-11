@@ -4,8 +4,8 @@ import java.awt.EventQueue;
 
 public class Main {
 	
-	public static Timer timer = new Timer();
-	public static Window window;
+	private static Timer timer = new Timer();
+	private static Window window;
 
 	public static void main(String[] args) {
 		timer.start();
@@ -14,6 +14,7 @@ public class Main {
 			@Override
 			public void run() {
 				window = new Window();
+				window.setOperator(timer);
 			}
 		});
 	}
