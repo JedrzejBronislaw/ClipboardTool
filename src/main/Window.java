@@ -11,7 +11,10 @@ import javax.swing.JFrame;
 
 public class Window extends JFrame implements ActionListener {
 
-	JButton button = new JButton("Turn off");
+	private static final Color onColor = Color.yellow;
+	private static final Color offColor = Color.gray;
+
+	private JButton button = new JButton("Turn off");
 	
 	private static final long serialVersionUID = 1L;
 
@@ -28,27 +31,22 @@ public class Window extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 	
-	private void placeComponents()
-	{
+	private void placeComponents() {
 		button.addActionListener(this);
-		button.setBackground(Color.yellow);
+		button.setBackground(onColor);
 		add(button);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (Main.timer.isWorking())
-		{
-			//wy³¹czenie
+		if (Main.timer.isWorking()) {
 			Main.timer.turnOff();
 			button.setText("Turn on");
-			button.setBackground(Color.gray);
-		} else
-		{
-			//w³¹czanie
+			button.setBackground(offColor);
+		} else {
 			Main.timer.turnOn();
 			button.setText("Turn off");
-			button.setBackground(Color.yellow);
+			button.setBackground(onColor);
 		}
 		
 	}

@@ -8,103 +8,90 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 public class Timer extends Thread {
-	String text, oldText;
-	boolean end = false;
-	boolean pause = false;
 	
+	private static final int INTERVAL = 1000;
 	
-	public Timer() {
-		// TODO Auto-generated constructor stub
-	}
+	private String text;
+	private String oldText;
+	private boolean end = false;
+	private boolean pause = false;
+	
+	private Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	
+	public Timer() {}
 	
 	@Override
 	public void run() {
-		while (!end)
-		{
+		while (!end) {
 			synchronized (this) {
 				while(pause)
-					if (pause)
-						try {
-							wait();
-						} catch (InterruptedException e1) {
-							e1.printStackTrace();
-						}
+					try {
+						wait();
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
 			}
 			
-			oldText = text;
-			getFromClipboard();
-			if (text.equals(oldText))
-			{
-				process();
-				setToClipboard();
-			}
-			
-			try {
-				sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public void end()
-	{
-		end = true;
-	}
-	
-	public void turnOff()
-	{
-		synchronized (this) {
-			pause = true;
-		}
-	}
-	
-	public void turnOn()
-	{
-		synchronized (this) {
-			pause = false;
-			this.notify();
+			action();
+			sleep();
 		}
 	}
 
-	public boolean isWorking()
-	{
-		synchronized (this) {
-			return !pause;
+	private void action() {
+		oldText = text;
+		text = getFromClipboard();
+		System.out.println("Clipboard : " + text);
+		
+		if (text.equals(oldText)) {
+			text = process(text);
+			setToClipboard(text);
+		}
+	}
+
+	private String process(String text) {
+		return text.replace("\n", " ");
+	}
+
+	private void sleep() {
+		try {
+			sleep(INTERVAL);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
+	public void end() {
+		end = true;
+	}
 	
-	private void getFromClipboard()
-	{
-		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	public synchronized void turnOff() {
+		pause = true;
+	}
+	
+	public synchronized void turnOn() {
+		pause = false;
+		this.notify();
+	}
+
+	public synchronized boolean isWorking() {
+		return !pause;
+	}
+	
+
+	private String getFromClipboard() {
+		String text = null;
 		
 		if (clipboard.isDataFlavorAvailable(DataFlavor.stringFlavor))
-		{
 			try {
 				text = (String) clipboard.getData(DataFlavor.stringFlavor);
-			} catch (UnsupportedFlavorException e) {
-				System.out.println("Exception: UnsupportedFlavorException");
-				e.printStackTrace();
-			} catch (IOException e) {
-				System.out.println("Exception: IOException");
+			} catch (UnsupportedFlavorException|IOException e) {
 				e.printStackTrace();
 			}
-			
-			System.out.println("Clipboard : " + text);
-		}
-	}
-	
-	private void process()
-	{
-		text = text.replace("\n", " ");
-	}
-	
-	private void setToClipboard()
-	{
-		Clipboard schowek = Toolkit.getDefaultToolkit().getSystemClipboard();
 		
-		schowek.setContents(new StringSelection(text), null);
+		return text;
+	}
+	
+	private void setToClipboard(String text) {
+		clipboard.setContents(new StringSelection(text), null);
 	}
 }
