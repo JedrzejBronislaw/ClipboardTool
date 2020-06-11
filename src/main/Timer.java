@@ -1,4 +1,4 @@
-package glowny;
+package main;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -8,9 +8,9 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 public class Timer extends Thread {
-	String tekst, staryTekst;
-	boolean koniec = false;
-	boolean pausa = false;
+	String text, oldText;
+	boolean end = false;
+	boolean pause = false;
 	
 	
 	public Timer() {
@@ -19,11 +19,11 @@ public class Timer extends Thread {
 	
 	@Override
 	public void run() {
-		while (!koniec)
+		while (!end)
 		{
 			synchronized (this) {
-				while(pausa)
-					if (pausa)
+				while(pause)
+					if (pause)
 						try {
 							wait();
 						} catch (InterruptedException e1) {
@@ -31,12 +31,12 @@ public class Timer extends Thread {
 						}
 			}
 			
-			staryTekst = tekst;
-			pobierzZeSchowka();
-			if (tekst.equals(staryTekst))
+			oldText = text;
+			getFromClipboard();
+			if (text.equals(oldText))
 			{
-				przetworz();
-				ZapiszDoSchowka();
+				process();
+				setToClipboard();
 			}
 			
 			try {
@@ -48,63 +48,63 @@ public class Timer extends Thread {
 		}
 	}
 	
-	public void zakoncz()
+	public void end()
 	{
-		koniec = true;
+		end = true;
 	}
 	
-	public void wstrzymaj()
+	public void turnOff()
 	{
 		synchronized (this) {
-			pausa = true;
+			pause = true;
 		}
 	}
 	
-	public void wznow()
+	public void turnOn()
 	{
 		synchronized (this) {
-			pausa = false;
+			pause = false;
 			this.notify();
 		}
 	}
 
-	public boolean czyDziala()
+	public boolean isWorking()
 	{
 		synchronized (this) {
-			return !pausa;
+			return !pause;
 		}
 	}
 	
 	
-	private void pobierzZeSchowka()
+	private void getFromClipboard()
 	{
-		Clipboard schowek = Toolkit.getDefaultToolkit().getSystemClipboard();
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		
-		if (schowek.isDataFlavorAvailable(DataFlavor.stringFlavor))
+		if (clipboard.isDataFlavorAvailable(DataFlavor.stringFlavor))
 		{
 			try {
-				tekst = (String) schowek.getData(DataFlavor.stringFlavor);
+				text = (String) clipboard.getData(DataFlavor.stringFlavor);
 			} catch (UnsupportedFlavorException e) {
-				System.out.println("Wyj¹tek: UnsupportedFlavorException");
+				System.out.println("Exception: UnsupportedFlavorException");
 				e.printStackTrace();
 			} catch (IOException e) {
-				System.out.println("Wyj¹tek: IOException");
+				System.out.println("Exception: IOException");
 				e.printStackTrace();
 			}
 			
-			System.out.println("Schowek : " + tekst);
+			System.out.println("Clipboard : " + text);
 		}
 	}
 	
-	private void przetworz()
+	private void process()
 	{
-		tekst = tekst.replace("\n", " ");
+		text = text.replace("\n", " ");
 	}
 	
-	private void ZapiszDoSchowka()
+	private void setToClipboard()
 	{
 		Clipboard schowek = Toolkit.getDefaultToolkit().getSystemClipboard();
 		
-		schowek.setContents(new StringSelection(tekst), null);
+		schowek.setContents(new StringSelection(text), null);
 	}
 }

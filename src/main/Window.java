@@ -1,4 +1,4 @@
-package glowny;
+package main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,46 +9,46 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class Okno extends JFrame implements ActionListener {
+public class Window extends JFrame implements ActionListener {
 
-	JButton przycisk = new JButton("Wy³acz");
+	JButton button = new JButton("Turn off");
 	
 	private static final long serialVersionUID = 1L;
 
-	public Okno() {
-		super("Schowek In¿yniera");
+	public Window() {
+		super("Engineer's clipboard");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setMinimumSize(new Dimension(200, 100));
 		setLocationRelativeTo(null);
 		
 		setLayout(new BorderLayout());
 		
-		ustawKomponenty();
+		placeComponents();
 		
 		setVisible(true);
 	}
 	
-	private void ustawKomponenty()
+	private void placeComponents()
 	{
-		przycisk.addActionListener(this);
-		przycisk.setBackground(Color.yellow);
-		add(przycisk);
+		button.addActionListener(this);
+		button.setBackground(Color.yellow);
+		add(button);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (Glowny.timer.czyDziala())
+		if (Main.timer.isWorking())
 		{
 			//wy³¹czenie
-			Glowny.timer.wstrzymaj();
-			przycisk.setText("W³¹cz");
-			przycisk.setBackground(Color.gray);
+			Main.timer.turnOff();
+			button.setText("Turn on");
+			button.setBackground(Color.gray);
 		} else
 		{
 			//w³¹czanie
-			Glowny.timer.wznow();
-			przycisk.setText("Wy³¹cz");
-			przycisk.setBackground(Color.yellow);
+			Main.timer.turnOn();
+			button.setText("Turn off");
+			button.setBackground(Color.yellow);
 		}
 		
 	}

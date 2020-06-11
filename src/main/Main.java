@@ -1,10 +1,10 @@
-package glowny;
+package main;
 
 import java.awt.EventQueue;
 
-public class Glowny {
+public class Main {
 	public static Timer timer = new Timer();
-	public static Okno  okno;
+	public static Window  window;
 	/**
 	 * @param args
 	 */
@@ -15,7 +15,7 @@ public class Glowny {
 			
 			@Override
 			public void run() {
-				okno = new Okno();
+				window = new Window();
 			}
 		});
 	}
