@@ -9,13 +9,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		timer.start();
-		EventQueue.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				window = new Window();
-				window.setOperator(timer);
-			}
+		EventQueue.invokeLater(() -> {
+			window = new Window();
+			window.setOperator(timer);
 		});
 	}
 
