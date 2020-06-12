@@ -17,14 +17,14 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		WindowLoader loader = new WindowLoader();
-		Timer timer = new Timer();
+		ServiceOperator timer = new RepeaterService(new LineSeparatorRemover());
 		
 		loader.load();
 		
 		createAndShowScene(primaryStage, loader.getNode());
-		loader.getController().setOperator(timer);
 		
-		timer.start();
+		timer.turnOn();
+		loader.getController().setOperator(timer);
 	}
 
 	private void createAndShowScene(Stage stage, Parent parent) {
@@ -38,6 +38,4 @@ public class Main extends Application {
 		});
 		stage.show();
 	}
-
-
 }
