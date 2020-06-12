@@ -16,7 +16,7 @@ public class LineSeparatorRemover implements Runnable {
 	@Override
 	public void run() {
 		oldText = text;
-		text = getFromClipboard();
+		text = getFromClipboard(text);
 		System.out.println("Clipboard: " + text);
 		
 		if (!text.equals(oldText)) {
@@ -31,8 +31,8 @@ public class LineSeparatorRemover implements Runnable {
 		return text.replace("\n", " ");
 	}
 	
-	private String getFromClipboard() {
-		String text = null;
+	private String getFromClipboard(String defaultText) {
+		String text = defaultText;
 		
 		if (clipboard.isDataFlavorAvailable(DataFlavor.stringFlavor))
 			try {
