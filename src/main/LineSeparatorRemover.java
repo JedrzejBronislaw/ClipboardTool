@@ -17,11 +17,13 @@ public class LineSeparatorRemover implements Runnable {
 	public void run() {
 		oldText = text;
 		text = getFromClipboard();
-		System.out.println("Clipboard : " + text);
+		System.out.println("Clipboard: " + text);
 		
-		if (text.equals(oldText)) {
+		if (!text.equals(oldText)) {
 			text = process(text);
 			setToClipboard(text);
+
+			System.out.println("   -> " + text);
 		}
 	}
 
