@@ -95,6 +95,9 @@ public class Timer extends Thread implements ServiceOperator{
 	}
 	
 	private void setToClipboard(String text) {
-		clipboard.setContents(new StringSelection(text), null);
+		try {
+			clipboard.setContents(new StringSelection(text), null);
+		} catch(IllegalStateException e) {
+		}
 	}
 }
