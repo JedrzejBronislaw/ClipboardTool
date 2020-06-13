@@ -1,4 +1,4 @@
-package main;
+package view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,6 +11,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import repeater.ServiceOperator;
 
 public class MainWindowController implements Initializable{
 	

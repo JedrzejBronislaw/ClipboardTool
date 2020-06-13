@@ -5,6 +5,10 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import repeater.RepeaterService;
+import repeater.ServiceOperator;
+import task.LineSeparatorRemover;
+import view.WindowLoader;
 
 public class Main extends Application {
 

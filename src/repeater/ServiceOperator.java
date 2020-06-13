@@ -1,4 +1,4 @@
-package main;
+package repeater;
 
 public interface ServiceOperator {
 	

@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<VBox alignment="TOP_CENTER" prefHeight="75.0" prefWidth="150.0" spacing="5.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainWindowController">
+<VBox alignment="TOP_CENTER" prefHeight="75.0" prefWidth="150.0" spacing="5.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
    <children>
       <Label text="Engineer's clipboard">
          <font>
