@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class LineSeparatorRemover implements Runnable {
 
-	private String text;
+	private String text = "";
 	private String oldText;
 	private Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	
